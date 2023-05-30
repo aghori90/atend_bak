@@ -1,0 +1,485 @@
+
+<style type="text/css">
+    .row {
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 14px;
+    }
+
+    /*input#uidseed {*/
+    /*    margin-top: -51px;*/
+    /*    margin-left: 190px;*/
+    /*}*/
+    .btnDeco {
+        display: inline-block;
+        float: right;
+        margin-top: -5px;
+        margin-right: 25px;
+        margin-bottom: 11px;
+    }
+
+    @media (min-width: 768px)
+        .container, .container-md, .container-sm {
+            max-width: 630px;
+        }
+
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        /*.inpt {
+            margin-top: -20px;
+        }*/
+
+        .zxcf {
+            display: inline-block;
+            float: right;
+            margin-top: 20px;
+        }
+
+        div#captcha {
+            margin-top: 24px;
+        }
+
+        .success {
+            color: #38e210;
+            font-weight: bold;
+        }
+
+        .valid {
+            text-align: center;
+            font-weight: 600;
+            color: greenyellow;
+        }
+        /*for radio*/
+        .form-group.radii {
+            display: inline-block;
+            margin-top: 36px;
+            margin-left: 95px;
+        }
+        .form-group.radee {
+            display: inline-block;
+            /*margin-top: 36px;*/
+            margin-left: 95px;
+        }
+        /*input#regno-2 {*/
+        /*    display: inline-block;*/
+        /*    margin-left: 36px;*/
+        /*}*/
+        .rad {
+            display: inline-block;
+            margin-left: 36px;
+        }
+        .form-group.mnth {
+            display: inline-block;
+            margin-top: -30px;
+        }
+        .bxDco {
+            display: inline-block;
+        }
+        .viewCertificate{
+            border-radius: 3px;
+            background-color: #00C0EF;
+            padding: 5px;
+            color: #ffffff;
+            width: 200px;
+        }.viewCertificate:hover{
+             border-radius: 3px;
+             background-color: #1dab0c;
+             padding: 5px;
+             color: #ffffff;
+             width: 200px;
+         }
+        .ms-options > ul >li{
+            list-style : none !important;
+        }
+        .ms-options-wrap > button {
+            color: #495057;
+        }
+        label{
+            margin-bottom: 0.5rem;
+        }
+        .lgt > a{
+            color: #ffffff;
+            font-weight:bold;
+        }
+    .fieldClass{
+        border: 2px solid #ff0000;
+        padding: 5px;
+        margin-top: 10px !important;
+    }
+    .fieldClass > legend{
+        background-color: #ff0;
+        color: #fff;
+        padding:2px;
+    }
+    .printContainer{
+        margin:10px !important;
+        float:right;
+        /*margin-bottom:10px !important;*/
+    }
+</style>
+<?php //echo "<pre>";print_r($data);die;
+//$data = $data[0];
+//echo $vacancy; die;
+?>
+<fieldset>
+    <div class="printContainer">
+        <button class="btn btn-outline-primary btnDec" width="40px" height="40px" onclick="print_pdf('print')">Print</button>
+    </div>
+    <div class="container-fluid" id="print">
+        <?php $sln = 1;foreach($applicantData as $key => $data){
+            $regis_no = $data['registration_no'];?>
+        <fieldset style="border: 2px solid #ccc;padding: 5px;margin-top: 65px !important;">
+            <legend style="background-color: #00adff !important;color: #fff;padding:2px;"><?php echo 'राज्य आयोग में अध्यक्ष पद पर नियुक्ति हेतु (विज्ञापन संख्या -01/2021 )'; ?></legend>
+<!--            <legend style="background-color: #00adff !important;color: #fff;padding:2px;">--><?php //echo $data['name'].' - '.$data['registration_no'].' ('.$sln.')'; ?><!--</legend>-->
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Registration No. :</b></label>
+                        <?php echo $this->Form->control('regNo', ['label' => '', 'class' => 'form-control numonly inpt', 'disabled' => 'disabled', 'value' => $data['registration_no']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Post Applied For:</b></label>
+                        <?php echo $this->Form->control('post', ['label' => '', 'class' => 'form-control inpt', 'value' => $vacancy[$data['vaccancy_id']], 'disabled' => 'disabled']); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Name :</b></label>
+                        <?php echo $this->Form->control('name', ['label' => '', 'class' => 'form-control numonly inpt', 'disabled' => 'disabled', 'value' => $data['name']]); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Date Of Birth :</b></label>
+                        <?php echo $this->Form->control('dob', ['label' => '', 'class' => 'form-control inpt', 'id' => 'date', 'disabled' => 'disabled', 'value' => $data['dob']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Email :</b></label>
+                        <?php echo $this->Form->control('email', ['label' => '', 'class' => 'form-control numonly inpt', 'disabled' => 'disabled', 'value' => $data['email']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Gender :</b></label>
+                        <?php echo $this->Form->control('gender', ['label' => '', 'class' => 'form-control inpt', 'id' => 'date', 'disabled' => 'disabled', 'value' => $data['gender']]); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>Contact :</b></label>
+                        <?php echo $this->Form->control('contact', ['label' => '', 'class' => 'form-control inpt', 'id' => 'date', 'disabled' => 'disabled', 'value' => $data['mobile']]); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header bg-primary text-white">निवेदक विवरण : </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>नाम (हिन्दी) :</b></label>
+                        <?php //echo $this->Form->control('namHn', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Name in Hindi', 'disabled' => 'disabled', 'value' => $data['name_hn']]); ?>
+                        <?php echo $this->Form->control('fatNam', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Name in English', 'disabled' => 'disabled', 'value' => $data['name_hn']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>पिता का नाम (अंग्रेजी) :</b></label>
+                        <?php echo $this->Form->control('fatNam', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Name in English', 'disabled' => 'disabled', 'value' => $data['fathername']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>पिता का नाम (हिन्दी) :</b></label>
+                        <?php //echo $this->Form->control('fatNamHn', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Name In Hindi', 'disabled' => 'disabled', 'value' => $data['fathername_hn']]); ?>
+                        <?php echo $this->Form->control('fatNam', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Name in English', 'disabled' => 'disabled', 'value' => $data['fathername_hn']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>आयु (01 जुलाई 2021 को) :</b></label>
+                        <?php echo $this->Form->control('age', ['label' => '', 'class' => 'form-control numonly inpt', 'placeholder'=>'Enter Age', 'disabled' => 'disabled', 'value' => $data['age']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>श्रेणी :</b></label>
+                        <?php $wrkPlace = ['GEN'=>'GEN', 'OBC'=>'OBC', 'ST'=>'ST', 'SC'=>'SC','OTHERS'=>'OTHERS']; ?>
+                        <?php echo $this->Form->select('cat',$wrkPlace, ['label' => '', 'class' => 'form-control','empty' => '--श्रेणी चुने --', 'disabled' => 'disabled', 'value' => $data['catagory']]); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header bg-primary text-white">Address</div>
+            <div class="addBox">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group boxAddrss">
+                            <label for="form"><b>स्थायी राज्य :</b></label>
+                            <?php echo $this->Form->control('permantStat', ['label' => '', 'class' => 'form-control  inpt','id'=>'state_code', 'empty'=>'--Select Current State-- ','options'=>$state, 'disabled' => 'disabled', 'value' => $data['permanent_state']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group boxAddrss">
+                            <label for="form"><b>अस्थायी राज्य :</b></label>
+                            <?php echo $this->Form->control('currStat', ['label' => '', 'class' => 'form-control  inpt', 'id'=>'temp_state_code','empty'=>'--Select Current State ','options'=>$state, 'disabled' => 'disabled', 'value' => $data['temporary_state']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>स्थायी जिला :</b></label>
+                            <?php
+                            $prmtateCode = $data['permanent_district'];
+                            $cfDistricts = $this->Document->getCfDistrictsBasedOnState($prmtateCode);
+                            echo $this->Form->control('permantDist', ['label' => '', 'class' => 'form-control inpt',  'empty'=>'--Select Permanent District--','options'=>$cfPrmDistricts, 'disabled' => 'disabled', 'value' => $data['permanent_district']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>अस्थायी जिला :</b></label>
+                            <?php
+                            $tempStateCode = $data['temporary_district'];
+                            $cfDistricts = $this->Document->getCfDistrictsBasedOnState($tempStateCode);
+                            echo $this->Form->control('currDist', ['label' => '', 'class' => 'form-control inpt', 'empty'=>'-- Select Current District--', 'disabled' => 'disabled','options'=>$cfDistricts, 'value' => $data['temporary_district']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>स्थायी पत्राचार का पता :</b></label>
+                            <?php echo $this->Form->control('permantAdd', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Permanent Address ', 'disabled' => 'disabled', 'value' => $data['permanent_address']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>अस्थायी पत्राचार का पता :</b></label>
+                            <?php echo $this->Form->control('currAdd', ['label' => '', 'class' => 'form-control txtOnly inpt', 'placeholder'=>'Enter Current Address', 'disabled' => 'disabled', 'value' => $data['temporary_address']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>स्थायी पिनकोड :</b></label>
+                            <?php echo $this->Form->control('permantPin', ['label' => '', 'class' => 'form-control numonly inpt','placeholder'=>'Enter Permanent Pincode ', 'disabled' => 'disabled', 'value' => $data['permanent_pincode']]); ?>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="form"><b>अस्थायी पिनकोड :</b></label>
+                            <?php echo $this->Form->control('currPin', ['label' => '', 'class' => 'form-control numonly inpt', 'placeholder'=>'Enter Current Pincode', 'disabled' => 'disabled', 'value' => $data['temporary_pincode']]); ?>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--Minimum Exprience-->
+            <div class="card-header bg-primary text-white">अनुभव क्षेत्र :</div>
+            <div class="row">
+                <!--7-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या उच्च न्यायालय के न्यायाधीश हैं अथवा रहे हैं? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('highCrtJudge', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['high_court_judge']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 hcrt" >
+                    <div class="form-group">
+                        <label for="form"><b>अनुभव कार्य  :</b></label>
+                        <p>उच्च न्यायालय का नाम जहाँ न्यायधीश के रूप में हो अथवा कार्य कर चुके हैं</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php echo $this->Form->control('courtNam', ['label' => '', 'class' => 'form-control textonly inpt','placeholder'=>'Name of the Court', 'disabled' => 'disabled', 'value' => $data['high_court_name']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 hcrt" >
+                    <div class="form-group">
+                        <label for="form"><b>अनुभव अवधि :</b></label>
+                        <p>उच्च न्यायालय में न्यायधीश के रूप में कार्य की गई अवधि (माह में )</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php echo $this->Form->control('highCrtExp', ['label' => '', 'class' => 'form-control numonly inpt','placeholder'=>'Exp In Months', 'disabled' => 'disabled', 'value' => $data['high_court_exp']]); ?>
+                    </div>
+                </div>
+            </div>
+            <!-- Educational Qualifications-->
+            <div class="card-header bg-primary text-white">अन्य विशेष अनुभव :</div>
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>अन्य विशेष अनुभव  :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+<!--                        --><?php //$apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('exp7', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['other_exp']]); ?>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 kwnAdd">
+                    <div class="form-group">
+                        <label for="form"><b>अन्य विशेष अनुभव का विवरण दे  :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 kwnAdd">
+                    <div class="form-group ">
+                        <?php echo $this->Form->control('knownAddress', ['label' => '', 'class' => 'form-control radee', 'disabled' => 'disabled', 'value' => $data['other_exp_details']]); ?>
+                    </div>
+                </div>
+
+            </div>
+            <!--Self Declaration -->
+            <div class="card-header bg-primary text-white">स्वा-घोषणा :</div>
+            <div class="row">
+                <!--1-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या सभी शैक्षणिक योग्यताएँ किसी मान्यता प्राप्त संस्थान/विश्वविद्यालय से प्राप्त है? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna1', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_1']]); ?>
+                    </div>
+                </div>
+                <!--2-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या किसी ऐसे अपराध जिसमें नैतिक अधमता सम्मिलित हो, के लिए अभियोजित किया गया है और कारावास की सजा प्राप्त है? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna2', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_2']]); ?>
+                    </div>
+                </div>
+                <!--3-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या दिवालिया घोषित किया गया है? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna3', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_3']]); ?>
+                    </div>
+                </div>
+                <!--4-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या किसी सक्षम न्यायालय द्वारा अस्वस्थ मस्तिष्क और सोच के घोषित किए गए हैं? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna4', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_4']]); ?>
+                    </div>
+                </div>
+                <!--5-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या राज्य सरकार अथवा केन्द्रीय सरकार अथवा ऐसी सरकार के स्वामित्वाधीन अथवा नियंत्रणाधीन किसी निगमित निकाय की सेवा से हटाया गया है अथवा निष्कासित किया गया है? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna5', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_5']]); ?>
+                    </div>
+                </div>
+                <!--6-->
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="form"><b>क्या राज्य सरकार की राय में अध्यक्ष के रूप में उसके कार्यों से वित्तीय अथवा अन्य लाभों पर हानिकारक प्रभाव पड़ने की संभावना है? :</b></label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                    <div class="form-group radee">
+                        <?php $apprve = ['1'=>'हाँ ', '2'=>'नहीं '] ?>
+                        <?php echo $this->Form->radio('ghosna6', $apprve, ['label' => '', 'class' => 'rad', 'disabled' => 'disabled', 'value' => $data['declaration_6']]); ?>
+                    </div>
+                </div>
+            </div>
+            <!-- UPloaded documents -->
+            <div class="card-header bg-primary text-white">अपलोड दस्तावेज़ : </div>
+            <div class="row">
+                <?php
+                $getCfDocs = $this->Document->getDocuments($regis_no);
+                if(!empty($getCfDocs)){
+                    $sl = 1;
+                    foreach($getCfDocs as $docKey => $docVal){
+                        $docLabel = $docVal['document_type_id'];
+                        $explodeName = explode('.', $docVal['name']);
+                        //echo "<pre>";print_r($explodeName);
+                        $docType = $explodeName[1];
+                        $cf_reg_no = $docVal['cf_registration_no'];
+                        $docPath = CF_DOC_PATH.'/'.$cf_reg_no.'/';
+                        $docId = $docVal['id'];
+                        $docs = $docVal['document_path'].'/'.$docVal['name'];
+
+                        ?>
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="form"><b><?php if((strtoupper($docLabel) == 'PHOTO') || (strtoupper($docLabel) == 'SIGNATURE')) { echo strtoupper($docLabel);}else{ echo strtoupper($docLabel) ." CERTIFICATE";} ?></b></label>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+                            <div class="form-group radee">
+                                <?php
+                                if(!empty($docVal['name']) || $docVal['name'] != ''){ ?>
+                                <img src="../webroot/img/corect.png" alt="" width="30px" height="30px">
+                                <?php }else{ ?>
+                                    <img src="../webroot/img/wrng.png" alt="" width="30px" height="30px">
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                        <?php $sl++;
+                    }
+                }else{
+                    echo "No Documents";
+                }
+                ?>
+            </div>
+        </fieldset>
+            <p class="break" style="height: 0px; width: 1131px; margin-top: 0px; margin-bottom: 0px;">&nbsp;</p>
+        <?php $sln++ ;} ?>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    function print_pdf(divName,regis_no){
+        var printContents = document.getElementById(divName).innerHTML;
+        //document.title = regis_no;
+        document.body.innerHTML = printContents;
+        window.print('');
+        window.location.reload();
+        document.body.innerHTML = originalContents;
+    }
+</script>
