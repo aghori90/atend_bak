@@ -415,7 +415,7 @@ class WorksController extends AppController
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username ")->fetchAll('assoc');
 //              echo "<pre>";print_r($details);die;
                 // Total work 
-                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username")->fetchAll('assoc');
+                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and status='1' group by username")->fetchAll('assoc');
                     $workHr = array();
                     // echo "<pre>";print_r($totalWorks);die;
                     foreach ($totalWorks as $totalWork){
@@ -423,10 +423,10 @@ class WorksController extends AppController
                     }
                 // echo "<pre>";print_r($workHr);die;
             }else{
-                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' group by username ")->fetchAll('assoc');
+                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1' group by username ")->fetchAll('assoc');
                 // Total work 
                 // echo "select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username"; die;
-                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username")->fetchAll('assoc');
+                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1'  group by username")->fetchAll('assoc');
                     $workHr = array();
                     // echo "<pre>";print_r($totalWorks);die;
                     foreach ($totalWorks as $totalWork){
@@ -489,7 +489,7 @@ class WorksController extends AppController
                 if($from!='' && $to!=''){
                     // echo 'a'; die;
                     // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '".$from."' AND '" .$to . "') and username ='$emId'"; die;
-                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and   username ='$emId'")->fetchAll('assoc');
+                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and username ='$emId' and status='1'")->fetchAll('assoc');
                     $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$emId' ")->fetchAll('assoc');
                     $diff = array();
                     //echo "<pre>";print_r($timeDiffs);die;
@@ -499,7 +499,7 @@ class WorksController extends AppController
                 }else{
                     // echo 'b'; die; 
                     // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
-                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'")->fetchAll('assoc');
+                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId' and status='1'")->fetchAll('assoc');
                 }                
             }
         }

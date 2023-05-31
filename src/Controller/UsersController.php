@@ -391,12 +391,20 @@ class UsersController extends AppController
             $status = $getStatus[0]['status'];
             if($status!=0){
                 $updateStatus = $connection->execute("update users set status='0' where username='$empId'");
-                $this->Flash->error('User Status has been Updated.');
-                return $this->redirect(['controller' => 'users', 'action' => 'userStatus']);
+                if ($updateStatus){
+                    $updateStatusInOut = $connection->execute("update in_out_records set status='0' where username='$empId'");
+                        $this->Flash->error('User Status has been Updated.');
+                        return $this->redirect(['controller' => 'users', 'action' => 'userStatus']);
+                }
+                
             }else{
                 $updateStatus = $connection->execute("update users set status='1' where username='$empId'");
-                $this->Flash->error('User Status has been Updated.');
-                return $this->redirect(['controller' => 'users', 'action' => 'userStatus']);
+                if ($updateStatus){
+                    $updateStatusInOut = $connection->execute("update in_out_records set status='1' where username='$empId'");
+                        $this->Flash->error('User Status has been Updated.');
+                        return $this->redirect(['controller' => 'users', 'action' => 'userStatus']);
+                }
+                
             }
         }
 
