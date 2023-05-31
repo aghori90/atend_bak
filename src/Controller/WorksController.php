@@ -483,20 +483,6 @@ class WorksController extends AppController
                     $diff[] = $timeDiff;
                 }
                 
-                //$diff = $timeDiff[0]['diff'];
-//                date_default_timezone_set('Asia/Kolkata');
-//                $month = date('m');
-                /*server side validation*/
-//                if($empId==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }if($from==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }if($to==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }
 //                $details = $connection->execute("select distinct username, f_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "')  order by in_time desc")->fetchAll('assoc');
 
 // echo $empId;exit;
