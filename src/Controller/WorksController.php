@@ -325,6 +325,7 @@ class WorksController extends AppController
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         }else{
             date_default_timezone_set('Asia/Kolkata');
+            $year = date('Y');
             $month = date('m');
             // $inOut = $connection->execute("Select in_time, out_time from in_out_records where username ='$uname'")->fetchAll('assoc');
             // // echo "<pre>";print_r($inOut);die;
@@ -382,6 +383,7 @@ class WorksController extends AppController
 
             // Total work 
             date_default_timezone_set('Asia/Kolkata');
+            $year = date('Y');
             $month = date('m');
             $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records  group by username")->fetchAll('assoc');
                 $workHr = array();
@@ -410,12 +412,9 @@ class WorksController extends AppController
 //                    $this->Flash->error(__('Employee Id can not be empty.'));
 //                    $this->redirect(['action' => 'adminReports']);
 //                }
-//                $details = $connection->execute("select distinct username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "')  order by in_time desc")->fetchAll('assoc');
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username ")->fetchAll('assoc');
 //              echo "<pre>";print_r($details);die;
                 // Total work 
-                date_default_timezone_set('Asia/Kolkata');
-                $month = date('m');
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username")->fetchAll('assoc');
                     $workHr = array();
                     // echo "<pre>";print_r($totalWorks);die;
@@ -424,11 +423,10 @@ class WorksController extends AppController
                     }
                 // echo "<pre>";print_r($workHr);die;
             }else{
-                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records group by username ")->fetchAll('assoc');
+                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' group by username ")->fetchAll('assoc');
                 // Total work 
-                date_default_timezone_set('Asia/Kolkata');
-                $month = date('m');
-                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records  group by username")->fetchAll('assoc');
+                // echo "select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username"; die;
+                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username")->fetchAll('assoc');
                     $workHr = array();
                     // echo "<pre>";print_r($totalWorks);die;
                     foreach ($totalWorks as $totalWork){
@@ -454,6 +452,10 @@ class WorksController extends AppController
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         }else{
+            date_default_timezone_set('Asia/Kolkata');
+            $year = date('Y');
+            $month = date('m');
+
             $desigData = TableRegistry::get('desination');
             $query = $desigData->find('list', [
                 'keyField' => 'id',
@@ -467,13 +469,15 @@ class WorksController extends AppController
                 $condition = "";
                 $from  = $data['from'];
                 $to    = $data['to'];
-                echo $empId = $data['detail'];
+                $empId = $data['detail'];
+                $emId  = $data['empId'];
 
-                // $this->request->session()->write('empId', $empId);
+                // $this->request->session()->write('idEmp', $empId);
+                // $empId = $this->request->session()->read('idEmp');
+
+                // echo $this->request->session()->write('empId', $empId);
                 // $empIdd = $this->request->session()->read('empId');
                 // echo $empIdd; die;
-
-                // echo $emnid;die;
 
                 // echo "SELECT SUM(out_time, in_time) as diff from in_out_records where username ='$empId' "; die;
                 $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$empId' ")->fetchAll('assoc');
@@ -482,19 +486,24 @@ class WorksController extends AppController
                 foreach ($timeDiffs as $timeDiff){
                     $diff[] = $timeDiff;
                 }
-                
-//                $details = $connection->execute("select distinct username, f_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "')  order by in_time desc")->fetchAll('assoc');
-
-// echo $empId;exit;
-// echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '$from' AND '$to') and username ='$empId'";exit;
-                $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where  username ='$empId'")->fetchAll('assoc');
-                // $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '$from' AND '$to') and username ='$empId'")->fetchAll('assoc');
-        //    echo "<pre>";print_r($details);die;
-            }else{
-                $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where username ='$empId'")->fetchAll('assoc');
+                if($from!='' && $to!=''){
+                    // echo 'a'; die;
+                    // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '".$from."' AND '" .$to . "') and username ='$emId'"; die;
+                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and   username ='$emId'")->fetchAll('assoc');
+                    $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$emId' ")->fetchAll('assoc');
+                    $diff = array();
+                    //echo "<pre>";print_r($timeDiffs);die;
+                    foreach ($timeDiffs as $timeDiff){
+                        $diff[] = $timeDiff;
+                    }
+                }else{
+                    // echo 'b'; die; 
+                    // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
+                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'")->fetchAll('assoc');
+                }                
             }
         }
-        $this->set(compact('details','name','diff','desig'));
+        $this->set(compact('details','name','diff','desig','empId'));
     }
 
     // public function clock

@@ -173,13 +173,6 @@ echo $this->Html->script('injection');
                                         <div class="col-sm-12 adj"><?php echo $this->Form->control("to", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control to",  "readonly" => true]); ?></div>
                                     </div>
                                 </div>
-                                <!--                                <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">-->
-                                <!--                                    <div class="form-group">-->
-                                <!--                                        <label for="form" class="adjst"><b>Employee Name :</b></label>-->
-                                <!--                                        <div class="col-sm-12 adj">--><?php //echo $this->Form->select("empid", $name, ["label" => false,  'empty' => '--Select Employee--', "class" => "form-control numonly"]); ?><!--</div>-->
-                                <!--                                         <div class="col-sm-12 adj">--><?php ////echo $this->Form->control("empid", ["type" => "text", "label" => false, "placeholder" => "--Enter Employee Id--", "class" => "form-control numonly"]); ?><!--</div> -->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="btnDeco">
                                         <?php echo $this->Form->button(__('Submit'),['type'=>'submit', 'class' => 'form-controlbtn btn btn-success','id'=>'bt']); ?>
@@ -187,7 +180,9 @@ echo $this->Html->script('injection');
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
+                        </fieldset>  
+                        <?php //echo $empId;die; ?>                      
+                        <?php echo $this->Form->hidden('empId', [ 'value'=>$empId]); ?>
                         <?php echo $this->Form->end(); ?>
                     </div>
                     <!--                    --><?php //echo "<pre>";print_r($details);die; ?>
