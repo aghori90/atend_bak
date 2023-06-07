@@ -199,8 +199,9 @@ echo $this->Html->script('injection');
                                             <!-- <th>Employee Id</th>
                                             <th>Name</th>
                                             <th>Designation</th> -->
-                                            <th>Date</th>
+                                            <th>In Date</th>
                                             <th>In Time</th>
+                                            <th>Out Date</th>
                                             <th>Out Time</th>
                                             <th>Total Work</th>
                                         </tr>
@@ -217,16 +218,17 @@ echo $this->Html->script('injection');
                                                 <!-- <td><?php //echo $server['username']; ?></td>
                                                 <td><?php //echo $server['f_name'].' '.$server['l_name']; ?></td>
                                                 <td><?php //echo $desig[$server['designation']]; ?></td> -->
-                                                <td><?php echo $server['created']; ?></td>
-                                                <td><?php echo ($server['in_time'])?$server['in_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-NA-</span>"; ?></td>
-                                                <td><?php echo ($server['out_time'])?$server['out_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-NA-</span>"; ?></td>
+                                                <td><?php echo $server['in_date']; ?></td>
+                                                <td><?php echo ($server['in_time'])?$server['in_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
+                                                <td><?php echo $server['out_date']; ?></td>
+                                                <td><?php echo ($server['out_time'])?$server['out_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
                                                 <td>
                                                     <?php
                                                     if(empty($server['in_time'])) {
-                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-NA-</span>";
+                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
                                                     }
                                                     if(empty($server['out_time'])) {
-                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-NA-</span>";
+                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
                                                     }
                                                     if(!empty($server['in_time']) && !empty($server['out_time'])) {
                                                         echo $diff[$a++]['diff'];
