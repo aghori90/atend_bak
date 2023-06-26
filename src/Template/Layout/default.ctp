@@ -52,6 +52,7 @@ $cakeDescription = 'SDC-Attendance:';
     <?php  echo $this->Html->script('jquery-ui'); ?>
     <?php echo $this->Html->script('monthpicker.min'); ?>
     <?php  echo $this->Html->script('yearpicker'); ?>
+    <?php  echo $this->Html->script('devtol'); ?>
     <?php //echo $this->Html->script('sha1.js') ?>
     <?php //echo $this->Html->script('injection.js') ?>
     <?php //echo $this->Html->script('fontawesome'); ?>
