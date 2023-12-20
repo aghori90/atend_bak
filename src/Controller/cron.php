@@ -4,8 +4,6 @@ function NewTransactionComodityUpdate2_ANNA($token = null, $flag = null, $yearId
 {
 //die();
     if ($token == '3458709536') {
-
-
         $pre = mysql_query("select MONTH(now()) cur_mnth, MONTH(now() - INTERVAL 1 month) pre_mnth,YEAR(now()) cur_yr, YEAR(now() - INTERVAL 1 month) pre_yr");
         $row = mysql_fetch_array($pre);
         $mnth = $row['cur_mnth'];
