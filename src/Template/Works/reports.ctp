@@ -192,7 +192,7 @@ echo $this->Html->script('jquery');
                                     <!-- <span style="color:red">****</span> -->
                                     <!-- <img src="../webroot/img/id.jpg" alt="" width="50px" height="50px"> -->
                                     <?php //echo '<img src="data:image/png;base64,'.base64_encode($img).'" width="150px" height="150px"/>'; ?>
-                                    <table class="table table-bordered border-primary " id="exclDnld">                                    
+                                    <table class="table table-bordered border-primary " id="exclDnld">
                                         <thead style="" align="center">
                                         <?php echo $details[0]['username'].' <span style="color:red">||</span> '.$details[0]['f_name'].' '.$details[0]['l_name'].' <span style="color:red">||</span> '.$desig[$details[0]['designation']] ?>
                                         <tr>
@@ -200,8 +200,9 @@ echo $this->Html->script('jquery');
                                             <!-- <th>Employee Id</th>
                                             <th>Name</th>
                                             <th>Designation</th> -->
-                                            <th>Date</th>
+                                            <th>In Date</th>
                                             <th>In Time</th>
+                                            <th>Out Date</th>
                                             <th>Out Time</th>
                                             <th>Work Hour</th>
                                         </tr>
@@ -213,11 +214,9 @@ echo $this->Html->script('jquery');
                                             foreach ($details as $server) { ?>
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
-                                                    <!-- <td><?php //echo $server['username']; ?></td> -->
-                                                    <!-- <td><?php //echo $server['f_name'].' '.$server['l_name'] ; ?></td> -->
-                                                    <!-- <td><?php //echo $desig[$server['designation']]; ?></td> -->
-                                                    <td><?php echo $server['created']; ?></td>
+                                                    <td><?php echo $server['in_date']; ?></td>
                                                     <td><?php echo $server['in_time']; ?></td>
+                                                    <td><?php echo $server['out_date']; ?></td>
                                                     <td>
                                                         <?php
                                                             if(!empty($server['out_time'])) {
@@ -228,13 +227,17 @@ echo $this->Html->script('jquery');
                                                     </td>
                                                     <td>
                                                         <?php
+
                                                             if(!empty($server['out_time'])) {
+//                                                                echo $to_time    = $server(strtotime('in_date'));
+//                                                                echo $from_time  = $server(strtotime('out_date')); die;
+//                                                                echo round(abs($to_time - $from_time) / 60,2). " minute";
+//                                                                die('123');
                                                                 echo $diff;
                                                             }else{ ?>
                                                                 <span style="color: red; font-size: large;font-weight: bolder">-NA-</span>
                                                         <?php } ?>
                                                     </td>
-                                                    <!-- <td><?php //echo $diff; ?></td> -->
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
