@@ -227,13 +227,17 @@ echo $this->Html->script('jquery');
                                                     </td>
                                                     <td>
                                                         <?php
-
                                                             if(!empty($server['out_time'])) {
-//                                                                echo $to_time    = $server(strtotime('in_date'));
+                                                                $in_date  =  strtotime($server['in_date']);
+                                                                $out_date = strtotime($server['out_date']);
+                                                                echo round(abs(($in_date - $out_date) / 60) / 60,2). " Hrs";
+//                                                                $minutes  = round(abs($in_date - $out_date) / 60,2). " minute";
+//                                                                echo $hours = intdiv($minutes, 60).':'. ($minutes % 60);
+//                                                                echo $in_time = $server(strtotime('in_date')); die('123');
 //                                                                echo $from_time  = $server(strtotime('out_date')); die;
 //                                                                echo round(abs($to_time - $from_time) / 60,2). " minute";
 //                                                                die('123');
-                                                                echo $diff;
+//                                                                echo $diff;
                                                             }else{ ?>
                                                                 <span style="color: red; font-size: large;font-weight: bolder">-NA-</span>
                                                         <?php } ?>

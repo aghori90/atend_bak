@@ -338,7 +338,6 @@ class WorksController extends AppController
             $timeDiff = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$uname' ")->fetchAll('assoc');
             $diff = $timeDiff[0]['diff'];
             $img = $connection->execute("select img from users where username='$uname'")->fetchAll('assoc')[0];
-
             // echo "<pre>";print_r($img);die;
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
@@ -351,7 +350,7 @@ class WorksController extends AppController
             }
             else{
                 $details = $connection->execute("select * from in_out_records where month(created)='$month' and username='$uname' order by created desc")->fetchAll('assoc');
-                // echo "<pre>";print_r($details);die;
+//                 echo "<pre>";print_r($details);die;
             }
         }
         $this->set(compact('details','diff','desig','img'));
