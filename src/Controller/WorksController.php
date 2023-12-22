@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\TableRegistry;
@@ -18,7 +19,8 @@ use function mysql_xdevapi\expression;
 class WorksController extends AppController
 {
 
-    public function initialize(){
+    public function initialize()
+    {
         parent::initialize();
         $this->Auth->allow(['serverMonitor']);
 
@@ -34,13 +36,13 @@ class WorksController extends AppController
 
     public function index()
     {
-        $connection     = ConnectionManager::get('default');
-        $districts      = $this->getCfDistricts();
-        $state          = $this->getCfStateName();
-        $cfDistricts    = [];
-        $blocks         = [];
+        $connection = ConnectionManager::get('default');
+        $districts = $this->getCfDistricts();
+        $state = $this->getCfStateName();
+        $cfDistricts = [];
+        $blocks = [];
 
-        $this->set(compact('districts','state','cfDistricts','blocks'));
+        $this->set(compact('districts', 'state', 'cfDistricts', 'blocks'));
 
     }
 
@@ -58,15 +60,15 @@ class WorksController extends AppController
         if ($this->request->is('post')) {
             $data = $this->getRequest()->getData();
 //            print_r($data);
-            $fileName   = $data['file']['name'];
-            $fileSize   = $data['file']['size'];
-            $maxsize    = 500000; // allowed file size 500kb
-            $allowed    = array('png','pdf'); //allowed extentions
+            $fileName = $data['file']['name'];
+            $fileSize = $data['file']['size'];
+            $maxsize = 500000; // allowed file size 500kb
+            $allowed = array('png', 'pdf'); //allowed extentions
 
             //serever side validation
-            if($fileName == ''){
+            if ($fileName == '') {
                 $this->Flash->error(__('Choose a file.'));
-                return $this->redirect(['controller'=>'works','action'=>'upload']);
+                return $this->redirect(['controller' => 'works', 'action' => 'upload']);
             }
 
             //checking file already available
@@ -74,24 +76,24 @@ class WorksController extends AppController
             $duplicate = $q1[0]['name'];
             if ($duplicate) {
                 $this->Flash->error(__('File already available.'));
-                return $this->redirect(['controller'=>'works','action'=>'upload']);
+                return $this->redirect(['controller' => 'works', 'action' => 'upload']);
             }
             //file insert
-            if(!empty($data['file']['name'])){
+            if (!empty($data['file']['name'])) {
                 $uploadPath = 'uploads/files/';
-                $uploadFile = $uploadPath.$fileName;
+                $uploadFile = $uploadPath . $fileName;
                 //check extention
                 $ext = pathinfo($fileName, PATHINFO_EXTENSION);
                 if (!in_array($ext, $allowed)) {
                     $this->Flash->error(__('only PNG is allowed.'));
-                    return $this->redirect(['controller'=>'works','action'=>'upload']);
+                    return $this->redirect(['controller' => 'works', 'action' => 'upload']);
                 }
                 //check file size
-                if(($fileSize >= $maxsize) || ($fileSize == 0)) {
+                if (($fileSize >= $maxsize) || ($fileSize == 0)) {
                     $this->Flash->error(__('File too large. File must be less than 500 kb.'));
-                    return $this->redirect(['controller'=>'works','action'=>'upload']);
+                    return $this->redirect(['controller' => 'works', 'action' => 'upload']);
                 }
-                if(move_uploaded_file($data['file']['tmp_name'],$uploadFile)){
+                if (move_uploaded_file($data['file']['tmp_name'], $uploadFile)) {
                     $uploadData = $this->Files->newEntity();
                     $uploadData->name = $fileName;
                     $uploadData->path = $uploadPath;
@@ -100,13 +102,13 @@ class WorksController extends AppController
 //                    print_r($this->Files->save($uploadData)); die;
                     if ($this->Files->save($uploadData)) {
                         $this->Flash->success(__('File has been uploaded and inserted successfully.'));
-                    }else{
+                    } else {
                         $this->Flash->error(__('Unable to upload file, please try again.'));
                     }
-                }else{
+                } else {
                     $this->Flash->error(__('Unable to upload file, please try again.')); // check folder permission once
                 }
-            }else{
+            } else {
                 $this->Flash->error(__('Please choose a file to upload.'));
             }
 
@@ -121,7 +123,7 @@ class WorksController extends AppController
         /*$files = $this->Files->find('all', ['order' => ['Files.created' => 'DESC']]);
         $this->set('files',$files);
         $this->set('filesRowNum',$filesRowNum);*/
-        $this->set(compact('uploadData','upFiles'));
+        $this->set(compact('uploadData', 'upFiles'));
 
 //        echo "<pre>"; print_r($files); "</pre>"; die();
     }
@@ -149,7 +151,7 @@ class WorksController extends AppController
         $session_data = $this->getRequest()->getSession()->read();
         $username = $session_data['Auth']['User']['username'];
         $groupId = $session_data['Auth']['User']['group_id'];
-        $groups = [12,13];
+        $groups = [12, 13];
         if (!in_array($groupId, $groups)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
@@ -160,38 +162,38 @@ class WorksController extends AppController
             $data = $this->getRequest()->getData();
 //            print_r($data); die;
 
-            $empId   = $data['empId'];
-            $fileName   = $data['file']['name'];
-            $fileType   = pathinfo($fileName, PATHINFO_EXTENSION);
+            $empId = $data['empId'];
+            $fileName = $data['file']['name'];
+            $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
             // array('png','pdf');
-            $allowTypes = ['png','jpeg','jpg'];
+            $allowTypes = ['png', 'jpeg', 'jpg'];
 //            $fileType   = $data['file']['type'];
 //            echo $fileType        = $data[pathinfo($fileName, PATHINFO_EXTENSION)];
 
-            if ($username!=$empId){
+            if ($username != $empId) {
                 $statusMsg = "File upload failed, please try again.";
             }
-            if(in_array($fileType, $allowTypes)){
+            if (in_array($fileType, $allowTypes)) {
 //                $image = ['file']['tmp_name'];
                 $image = $_FILES['file']['tmp_name']; //die;
                 $imgContent = addslashes(file_get_contents($image));
                 // Insert image content into database
                 $update = $connection->query("update users set img='$imgContent', doc_ext='$fileType' where username='$empId'");
 
-                if($update){
+                if ($update) {
                     $status = 'success';
                     $statusMsg = "File uploaded successfully.";
                     // $this->redirect(['controller' => 'Users', 'action' => 'employee']);
-                }else{
+                } else {
                     $statusMsg = "File upload failed, please try again.";
                     // $this->redirect(['controller' => 'Users', 'action' => 'employee']);
                 }
                 // die;
-            }else{
+            } else {
                 $statusMsg = 'Sorry, only JPG, JPEG & PNG files are allowed to upload.';
             }
 
-        }else{
+        } else {
             // $statusMsg = 'Please select an image file to upload.';
         }
         // Display status message
@@ -204,7 +206,7 @@ class WorksController extends AppController
         /*$files = $this->Files->find('all', ['order' => ['Files.created' => 'DESC']]);
         $this->set('files',$files);
         $this->set('filesRowNum',$filesRowNum);*/
-        $this->set(compact('upFiles','uploadData','groups','username'));
+        $this->set(compact('upFiles', 'uploadData', 'groups', 'username'));
     }
 
     /*check in*/
@@ -219,9 +221,7 @@ class WorksController extends AppController
         if (!in_array($groupId, $groups)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }
-        else
-        {
+        } else {
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
 //                echo "<pre>";print_r($data);die;
@@ -240,10 +240,10 @@ class WorksController extends AppController
 //                $insrt = $connection->execute("insert into in_out_records(username,f_name,l_name,designation,in_date,in_time,created) values ('$uname','$fname','$lname','$desig',now(),'$chkin','$created')");
                 $insrt = $connection->execute("insert into in_out_records(username,f_name,l_name,designation,in_time,created) values ('$uname','$fname','$lname','$desig','$chkin','$created')");
 //                echo $insrt; die;
-                if($insrt){
+                if ($insrt) {
                     $this->Flash->success(__('Checked in successfully.'));
                     $this->redirect(['controller' => 'Users', 'action' => 'employee']);
-                }else{
+                } else {
                     $this->Flash->success(__('Oops!, some technical issue.'));
                     $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                 }
@@ -264,9 +264,7 @@ class WorksController extends AppController
         if (!in_array($groupId, $groups)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }
-        else
-        {
+        } else {
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
 //                echo "<pre>";print_r($data);die;
@@ -275,16 +273,16 @@ class WorksController extends AppController
 //                echo "<pre>";print_r($detail);die;
                 $uname = $detail[0]['username'];
                 $desig = $detail[0]['desig'];
-                $dat   = $detail[0]['created'];
+                $dat = $detail[0]['created'];
                 date_default_timezone_set('Asia/Kolkata');
                 $today = date('Y-m-d');
                 $chkout = date("h:i:s");
                 $modified = date('Y-m-d h:i:s');
 //                echo "select * from in_out_records where username = '$uname' and created = '$today' order by in_time desc "; die;
-                $getchekin =$connection->execute("select * from in_out_records where username = '$uname' and created = '$today' order by in_time desc ")->fetchAll('assoc');
+                $getchekin = $connection->execute("select * from in_out_records where username = '$uname' and created = '$today' order by in_time desc ")->fetchAll('assoc');
 //                echo "<pre>";print_r($getchekin);die;
                 $chkInCretd = $getchekin[0]['created'];
-                $chkInTime  = $getchekin[0]['in_time'];
+                $chkInTime = $getchekin[0]['in_time'];
 //                echo "<pre>";print_r($getchekin);die;
 
 //                echo "select * from in_out_records where username = '$uname' and created = '$today'";die;
@@ -293,10 +291,10 @@ class WorksController extends AppController
 //                $updat = $connection->execute("update in_out_records set out_time='$chkout',out_date='$modified', modified = '$modified' where  username= '$uname' and created ='$chkInCretd'");
                 $updat = $connection->execute("update in_out_records set out_time='$chkout', modified = '$modified' where  username= '$uname' and created ='$chkInCretd'");
 //                echo $insrt; die;
-                if($updat){
+                if ($updat) {
                     $this->Flash->success(__('Checked out successfully.'));
                     $this->redirect(['controller' => 'Users', 'action' => 'employee']);
-                }else{
+                } else {
                     $this->Flash->success(__('Oops!, some technical issue.'));
                     $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                 }
@@ -315,11 +313,11 @@ class WorksController extends AppController
         $this->set('title', 'Reports');
         $connection = ConnectionManager::get('default');
         $session_data = $this->getRequest()->getSession()->read();
-        $user_id    = $session_data['Auth']['User']['id'];
-        $uname      = $session_data['Auth']['User']['username'];
-        $groupId    = $session_data['Auth']['User']['group_id'];
-        $groups     = [13];
-        $desigData  = TableRegistry::get('desination');
+        $user_id = $session_data['Auth']['User']['id'];
+        $uname = $session_data['Auth']['User']['username'];
+        $groupId = $session_data['Auth']['User']['group_id'];
+        $groups = [13];
+        $desigData = TableRegistry::get('desination');
         $query = $desigData->find('list', [
             'keyField' => 'id',
             'valueField' => 'name',
@@ -328,7 +326,7 @@ class WorksController extends AppController
         if (!in_array($groupId, $groups)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }else{
+        } else {
             date_default_timezone_set('Asia/Kolkata');
             $year = date('Y');
             $month = date('m');
@@ -346,16 +344,15 @@ class WorksController extends AppController
 //                echo "<pre>";print_r($data);die;
                 $queryCondition = "";
                 $from = $data['from'];
-                $to   = $data['to'];
-                $details = $connection->execute("select * from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "' and  username= '".$uname."') order by created desc")->fetchAll('assoc');
-        //    echo "<pre>";print_r($details);die;
-            }
-            else{
+                $to = $data['to'];
+                $details = $connection->execute("select * from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "' and  username= '" . $uname . "') order by created desc")->fetchAll('assoc');
+                //    echo "<pre>";print_r($details);die;
+            } else {
                 $details = $connection->execute("select * from in_out_records where month(created)='$month' and username='$uname' order by created desc")->fetchAll('assoc');
 //                 echo "<pre>";print_r($details);die;
             }
         }
-        $this->set(compact('details','diff','desig','img'));
+        $this->set(compact('details', 'diff', 'desig', 'img'));
 
     }
 
@@ -366,14 +363,14 @@ class WorksController extends AppController
         $this->set('title', 'Admin Reports');
         $connection = ConnectionManager::get('default');
         $session_data = $this->getRequest()->getSession()->read();
-        $user_id    = $session_data['Auth']['User']['id'];
-        $uname      = $session_data['Auth']['User']['username'];
-        $groupId    = $session_data['Auth']['User']['group_id'];
-        $groups     = [12];
+        $user_id = $session_data['Auth']['User']['id'];
+        $uname = $session_data['Auth']['User']['username'];
+        $groupId = $session_data['Auth']['User']['group_id'];
+        $groups = [12];
         if (!in_array($groupId, $groups)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }else{
+        } else {
             $desigData = TableRegistry::get('desination');
             $query = $desigData->find('list', [
                 'keyField' => 'id',
@@ -383,25 +380,25 @@ class WorksController extends AppController
             $usersDetails = $connection->execute("Select username, f_name, l_name from users")->fetchAll('assoc');
             $new_array = [];
             foreach ($usersDetails as $value)
-            $new_array[$value['id']] = $value;
+                $new_array[$value['id']] = $value;
 
             // Total work
             date_default_timezone_set('Asia/Kolkata');
             $year = date('Y');
             $month = date('m');
             $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records  group by username")->fetchAll('assoc');
-                $workHr = array();
-                // echo "<pre>";print_r($totalWorks);die;
-                foreach ($totalWorks as $totalWork){
-                    $workHr[] = $totalWork;
-                }
+            $workHr = array();
+            // echo "<pre>";print_r($totalWorks);die;
+            foreach ($totalWorks as $totalWork) {
+                $workHr[] = $totalWork;
+            }
             // echo "<pre>";print_r($workHr);die;
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
 //                echo "<pre>";print_r($data);die;
                 $condition = "";
-                $from  = $data['from'];
-                $to    = $data['to'];
+                $from = $data['from'];
+                $to = $data['to'];
                 $empId = $data['empid'];
 //                date_default_timezone_set('Asia/Kolkata');
 //                $month = date('m');
@@ -416,31 +413,30 @@ class WorksController extends AppController
 //                    $this->Flash->error(__('Employee Id can not be empty.'));
 //                    $this->redirect(['action' => 'adminReports']);
 //                }
-                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username ")->fetchAll('assoc');
+                $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') group by username ")->fetchAll('assoc');
 //              echo "<pre>";print_r($details);die;
                 // Total work
-                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and status='1' group by username")->fetchAll('assoc');
-                    $workHr = array();
-                    // echo "<pre>";print_r($totalWorks);die;
-                    foreach ($totalWorks as $totalWork){
-                        $workHr[] = $totalWork;
-                    }
+                $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and status='1' group by username")->fetchAll('assoc');
+                $workHr = array();
+                // echo "<pre>";print_r($totalWorks);die;
+                foreach ($totalWorks as $totalWork) {
+                    $workHr[] = $totalWork;
+                }
                 // echo "<pre>";print_r($workHr);die;
-            }else{
+            } else {
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1' group by username ")->fetchAll('assoc');
                 // Total work
                 // echo "select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username"; die;
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1'  group by username")->fetchAll('assoc');
-                    $workHr = array();
-                    // echo "<pre>";print_r($totalWorks);die;
-                    foreach ($totalWorks as $totalWork){
-                        $workHr[] = $totalWork;
-                    }
+                $workHr = array();
+                // echo "<pre>";print_r($totalWorks);die;
+                foreach ($totalWorks as $totalWork) {
+                    $workHr[] = $totalWork;
+                }
                 // echo "<pre>";print_r($workHr);die;
             }
         }
-        $this->set(compact('details','name','desig','workHr'));
-
+        $this->set(compact('details', 'name', 'desig', 'workHr'));
     }
 
     public function adminReportsDetails()
@@ -449,15 +445,14 @@ class WorksController extends AppController
         $connection = ConnectionManager::get('default');
         $session_data = $this->getRequest()->getSession()->read();
 //        echo "<pre>";print_r($session_data);die;
-        $user_id    = $session_data['Auth']['User']['id'];
-        $uname      = $session_data['Auth']['User']['username'];
-        $groupId    = $session_data['Auth']['User']['group_id'];
+        $user_id = $session_data['Auth']['User']['id'];
+        $uname = $session_data['Auth']['User']['username'];
+        $groupId = $session_data['Auth']['User']['group_id'];
 //        $groups     = [12];
         if (!in_array($groupId)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }
-        else{
+        } else {
             date_default_timezone_set('Asia/Kolkata');
             $year = date('Y');
             $month = date('m');
@@ -471,12 +466,12 @@ class WorksController extends AppController
 
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
-            //    echo "<pre>";print_r($data);die;
+                //    echo "<pre>";print_r($data);die;
                 $condition = "";
-                $from  = $data['from'];
-                $to    = $data['to'];
+                $from = $data['from'];
+                $to = $data['to'];
                 $empId = $data['detail'];
-                $emId  = $data['empId'];
+                $emId = $data['empId'];
 
                 // $this->request->session()->write('idEmp', $empId);
                 // $empId = $this->request->session()->read('idEmp');
@@ -489,13 +484,13 @@ class WorksController extends AppController
                 $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$empId' ")->fetchAll('assoc');
                 $diff = array();
 //                echo "<pre>";print_r($timeDiffs);die;
-                foreach ($timeDiffs as $timeDiff){
+                foreach ($timeDiffs as $timeDiff) {
                     $diff[] = $timeDiff;
                 }
-                if($from!='' && $to!=''){
+                if ($from != '' && $to != '') {
                     // echo 'a'; die;
 //                     echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '".$from."' AND '" .$to . "') and username ='$emId'"; die;
-                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and username ='$emId' and status='1'")->fetchAll('assoc');
+                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and username ='$emId' and status='1'")->fetchAll('assoc');
                     $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$emId' ")->fetchAll('assoc');
 //                    echo "<pre>";print_r($details);die;
                     // $inDate = $details[0]['in_date'];
@@ -504,16 +499,16 @@ class WorksController extends AppController
                     // $inTime = $details[0]['out_time'];
                     $diff = array();
                     //echo "<pre>";print_r($timeDiffs);die;
-                    foreach ($timeDiffs as $timeDiff){
+                    foreach ($timeDiffs as $timeDiff) {
                         $diff[] = $timeDiff;
                     }
-                }else{
+                } else {
                     // echo 'b'; die;
                     // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
                     $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId' and status='1'")->fetchAll('assoc');
                 }
             }
         }
-        $this->set(compact('details','diff','desig','empId'));
+        $this->set(compact('details', 'diff', 'desig', 'empId'));
     }
 }
