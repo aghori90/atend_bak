@@ -180,8 +180,8 @@ echo $this->Html->script('injection');
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>  
-                        <?php //echo $empId;die; ?>                      
+                        </fieldset>
+                        <?php //echo $empId;die; ?>
                         <?php echo $this->Form->hidden('empId', [ 'value'=>$empId]); ?>
                         <?php echo $this->Form->end(); ?>
                     </div>
@@ -224,15 +224,15 @@ echo $this->Html->script('injection');
                                                 <td><?php echo ($server['out_time'])?$server['out_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
                                                 <td>
                                                     <?php
-                                                    if(empty($server['in_time'])) {
-                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
-                                                    }
-                                                    if(empty($server['out_time'])) {
-                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
-                                                    }
-                                                    if(!empty($server['in_time']) && !empty($server['out_time'])) {
-                                                        echo $diff[$a++]['diff'];
-                                                    }
+//                                                    if(empty($server['in_time'])) {
+//                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
+//                                                    }
+//                                                    if(empty($server['out_time'])) {
+//                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
+//                                                    }
+//                                                    if(!empty($server['in_time']) && !empty($server['out_time'])) {
+////                                                        echo $diff[$a++]['diff'];
+//                                                    }
                                                     ?>
                                                 </td>
                                             </tr>

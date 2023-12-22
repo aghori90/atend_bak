@@ -237,7 +237,8 @@ class WorksController extends AppController
                 $created = date('Y-m-d');
 
 //                echo "insert into in_out_records(username,f_name,l_name,designation,in_time,created) values ('$uname','$fname','$lname','$desig','$chkin','$created')"; die;
-                $insrt = $connection->execute("insert into in_out_records(username,f_name,l_name,designation,in_date,in_time,created) values ('$uname','$fname','$lname','$desig',now(),'$chkin','$created')");
+//                $insrt = $connection->execute("insert into in_out_records(username,f_name,l_name,designation,in_date,in_time,created) values ('$uname','$fname','$lname','$desig',now(),'$chkin','$created')");
+                $insrt = $connection->execute("insert into in_out_records(username,f_name,l_name,designation,in_time,created) values ('$uname','$fname','$lname','$desig','$chkin','$created')");
 //                echo $insrt; die;
                 if($insrt){
                     $this->Flash->success(__('Checked in successfully.'));
@@ -289,7 +290,8 @@ class WorksController extends AppController
 //                echo "select * from in_out_records where username = '$uname' and created = '$today'";die;
 
 //                echo "update in_out_records set out_time='$chkout', modified = '$modified' where username= '$uname' and created ='$chkInCretd'"; die;
-                $updat = $connection->execute("update in_out_records set out_time='$chkout',out_date='$modified', modified = '$modified' where  username= '$uname' and created ='$chkInCretd'");
+//                $updat = $connection->execute("update in_out_records set out_time='$chkout',out_date='$modified', modified = '$modified' where  username= '$uname' and created ='$chkInCretd'");
+                $updat = $connection->execute("update in_out_records set out_time='$chkout', modified = '$modified' where  username= '$uname' and created ='$chkInCretd'");
 //                echo $insrt; die;
                 if($updat){
                     $this->Flash->success(__('Checked out successfully.'));
@@ -443,32 +445,19 @@ class WorksController extends AppController
 
     public function adminReportsDetails()
     {
-        // echo gmdate("H:i:s", 685);
-        // $datetime_1 = '2023-05-20 08:23:27';
-        // $datetime_2 = '2023-05-21 04:35:52';
-
-        // echo $from_time  = strtotime($datetime_1)."</br>";
-        // echo $to_time    = strtotime($datetime_2)."</br>";
-        // echo $diff_minutes = round(abs($from_time - $to_time) / 60). " minutes"."</br>";
-        // // echo gmdate("H:i:s", 1212.42);
-        // $init = $diff_minutes;
-        // $hours = floor($init / 60);
-        // $minutes = floor(($init / 60) % 60);
-        // $seconds = $init % 60;
-        // echo "$hours:$minutes:$seconds";
-        // die;
-
         $this->set('title', 'Admin Reports');
         $connection = ConnectionManager::get('default');
         $session_data = $this->getRequest()->getSession()->read();
+//        echo "<pre>";print_r($session_data);die;
         $user_id    = $session_data['Auth']['User']['id'];
         $uname      = $session_data['Auth']['User']['username'];
         $groupId    = $session_data['Auth']['User']['group_id'];
-        $groups     = [12];
-        if (!in_array($groupId, $groups)) {
+//        $groups     = [12];
+        if (!in_array($groupId)) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-        }else{
+        }
+        else{
             date_default_timezone_set('Asia/Kolkata');
             $year = date('Y');
             $month = date('m');
@@ -525,17 +514,6 @@ class WorksController extends AppController
                 }
             }
         }
-        $this->set(compact('details','name','diff','desig','empId'));
+        $this->set(compact('details','diff','desig','empId'));
     }
-
-    // public function clock
 }
-
-
-//
-
-
-
-
-
-
