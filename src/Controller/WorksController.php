@@ -18,7 +18,6 @@ use function mysql_xdevapi\expression;
  */
 class WorksController extends AppController
 {
-
     public function initialize()
     {
         parent::initialize();
