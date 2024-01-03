@@ -215,7 +215,8 @@ echo $this->Html->script('jquery');
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo $server['created']; ?></td>
-                                                    <td><?php echo $server['in_time']; ?></td>
+                                                    <td><?php echo $server['in_time']; ?>
+                                                    </td>
                                                     <td><?php echo $server['modified']; ?></td>
                                                     <td>
                                                         <?php
@@ -228,13 +229,14 @@ echo $this->Html->script('jquery');
                                                     <td>
                                                         <?php
                                                             if(!empty($server['out_time'])) {
-                                                                $in_time = strtotime($server['created']." ".$server['in_time']);
+                                                                $in_time  = strtotime($server['created']." ".$server['in_time']);
                                                                 $out_time = strtotime($server['modified']." ".$server['out_time']);
-                                                                echo round(abs(($out_time - $in_time) / 60) / 60,2). " Hrs";
-//                                                                $in_date  =  strtotime($server['in_date']);
-//                                                                $out_date = strtotime($server['out_date']);
-//                                                                echo round(abs(($in_date - $out_date) / 60) / 60,2). " Hrs";
-//                                                                echo $diff;
+//                                                                $final_hr    = round(abs((($out_time - $in_time) / 60 /60 ))) ;
+                                                                $final_hr    = round(abs((($out_time - $in_time) / 60 /60 ))) ;
+                                                                $fin_mn     = (($final_hr) % 60).' Min';
+//                                                                $final    = date('H:i:s',strtotime($out_time - $in_time)). " Hrs";
+                                                                echo $final_hr.':'.$fin_mn;
+//                                                                echo explode(".",(($out_time - $in_time)/3600))[0]." ".round(($out_time - $in_time)%3600,2);
                                                             }else{ ?>
                                                                 <span style="color: red; font-size: large;font-weight: bolder">-NA-</span>
                                                         <?php } ?>

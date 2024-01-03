@@ -89,6 +89,7 @@ echo $this->Html->script('injection');
         position: sticky;
         left: 0px;
     }
+
     th {
         background-color: darkcyan;
         color: white;
@@ -143,10 +144,12 @@ echo $this->Html->script('injection');
         margin-top: -1px;
         margin-bottom: -33px;
     }
-    .adjst{
+
+    .adjst {
         margin-top: 20px;
     }
-    .adj{
+
+    .adj {
         margin-top: 10px;
     }
 
@@ -157,43 +160,47 @@ echo $this->Html->script('injection');
             <div style="width:100%;">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3" style="border:none;">
                     <div class="card-header bg-primary text-white"><b>Attendance Record</b></div>
-                    <?php echo $this->Form->create('range',['name'=>'range','id'=>'range','url'=>['controller'=>'works','action'=>'adminReportsDetails']]) ?>
+                    <?php echo $this->Form->create('range', ['name' => 'range', 'id' => 'range', 'url' => ['controller' => 'works', 'action' => 'adminReportsDetails']]) ?>
                     <div class="container-fluid">
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form" class="adjst"><b>From :</b></label>
-                                        <div class="col-sm-12 adj"><?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from","readonly" => true]); ?></div>
+                                        <div
+                                            class="col-sm-12 adj"><?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from", "readonly" => true]); ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form" class="adjst"><b>To :</b></label>
-                                        <div class="col-sm-12 adj"><?php echo $this->Form->control("to", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control to",  "readonly" => true]); ?></div>
+                                        <div
+                                            class="col-sm-12 adj"><?php echo $this->Form->control("to", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control to", "readonly" => true]); ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="btnDeco">
-                                        <?php echo $this->Form->button(__('Submit'),['type'=>'submit', 'class' => 'form-controlbtn btn btn-success','id'=>'bt']); ?>
+                                        <?php echo $this->Form->button(__('Submit'), ['type' => 'submit', 'class' => 'form-controlbtn btn btn-success', 'id' => 'bt']); ?>
                                         <!--                                        <button type="submit" class="btn btn-outline-success">Success</button>-->
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
                         <?php //echo $empId;die; ?>
-                        <?php echo $this->Form->hidden('empId', [ 'value'=>$empId]); ?>
+                        <?php echo $this->Form->hidden('empId', ['value' => $empId]); ?>
                         <?php echo $this->Form->end(); ?>
                     </div>
                     <!--                    --><?php //echo "<pre>";print_r($details);die; ?>
                     <fieldset>
-                        <?php if($details!= 1) { ?>
-                            <span data-toggle="tooltip" data-placement="top" title="Download as Excel" onClick = "table_excel('exclDnld', '<?php echo $details[0]['username'].' || '.$details[0]['f_name'].''.$details[0]['l_name']; ?>');"><img src="../webroot/img/excle.png" class="suk_st"></span>
+                        <?php if ($details != 1) { ?>
+                            <span data-toggle="tooltip" data-placement="top" title="Download as Excel"
+                                  onClick="table_excel('exclDnld', '<?php echo $details[0]['username'] . ' || ' . $details[0]['f_name'] . '' . $details[0]['l_name']; ?>');"><img
+                                    src="../webroot/img/excle.png" class="suk_st"></span>
                             <div>
                                 <div class="tabb">
                                     <table class="table table-bordered border-primary " id="exclDnld">
                                         <thead style="" align="center">
-                                        <?php echo $details[0]['username'].' <span style="color:red">||</span> '.$details[0]['f_name'].' '.$details[0]['l_name'].' <span style="color:red">||</span> '.$desig[$details[0]['designation']] ?>
+                                        <?php echo $details[0]['username'] . ' <span style="color:red">||</span> ' . $details[0]['f_name'] . ' ' . $details[0]['l_name'] . ' <span style="color:red">||</span> ' . $desig[$details[0]['designation']] ?>
                                         <tr>
                                             <th>#</th>
                                             <!-- <th>Employee Id</th>
@@ -209,30 +216,29 @@ echo $this->Html->script('injection');
                                         <tbody style="" align="center">
                                         <?php
                                         // echo "<pre>";print_r($details);die;
-                                        $i=1;
-                                        $a=0;
+                                        $i = 1;
+                                        $a = 0;
                                         foreach ($details as $server) { ?>
-
                                             <tr>
                                                 <td><?php echo $i++; ?></td>
                                                 <!-- <td><?php //echo $server['username']; ?></td>
                                                 <td><?php //echo $server['f_name'].' '.$server['l_name']; ?></td>
                                                 <td><?php //echo $desig[$server['designation']]; ?></td> -->
                                                 <td><?php echo $server['in_date']; ?></td>
-                                                <td><?php echo ($server['in_time'])?$server['in_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
+                                                <td><?php echo ($server['in_time']) ? $server['in_time'] : "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
                                                 <td><?php echo $server['out_date']; ?></td>
-                                                <td><?php echo ($server['out_time'])?$server['out_time']:"<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
+                                                <td><?php echo ($server['out_time']) ? $server['out_time'] : "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
                                                 <td>
                                                     <?php
-//                                                    if(empty($server['in_time'])) {
-//                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
-//                                                    }
-//                                                    if(empty($server['out_time'])) {
-//                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
-//                                                    }
-//                                                    if(!empty($server['in_time']) && !empty($server['out_time'])) {
-////                                                        echo $diff[$a++]['diff'];
-//                                                    }
+                                                    if (empty($server['in_time'])) {
+                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
+                                                    }
+                                                    if (empty($server['out_time'])) {
+                                                        echo "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>";
+                                                    }
+                                                    if (!empty($server['in_time']) && !empty($server['out_time'])) {
+                                                        echo $diff[$a++]['diff'];
+                                                    }
                                                     ?>
                                                 </td>
                                             </tr>
@@ -242,7 +248,7 @@ echo $this->Html->script('injection');
                                     </table>
                                 </div>
                             </div>
-                        <?php }else{ ?>
+                        <?php } else { ?>
                             <span style="color: red; font-weight: bold">Sorry No Records found</span>
                         <?php } ?>
                     </fieldset>
@@ -254,25 +260,27 @@ echo $this->Html->script('injection');
 
 <?php echo $this->Html->script("jquery-ui.js") ?>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#bt').click(function(){
+    $(document).ready(function () {
+        $('#bt').click(function () {
             let cal1 = $('#from').val();
             let cal2 = $('#to').val();
             let empid = $('#empid').val();
             // alert(cal2);
-            if(cal1 == '' || cal2 == ''){
+            if (cal1 == '' || cal2 == '') {
                 // $('#from').html('Please Select date');
-                alert('Select Date Range');return false;
+                alert('Select Date Range');
+                return false;
             }
-            if(empid == ''){
-                alert('Enter Employee Id');return false;
+            if (empid == '') {
+                alert('Enter Employee Id');
+                return false;
             }
             // return false;
         });
     });
 
     /*datepicker*/
-    $(function() {
+    $(function () {
         $('.from').datepicker({
             language: "es",
             autoclose: true,
