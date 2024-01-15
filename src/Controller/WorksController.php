@@ -381,7 +381,7 @@ class WorksController extends AppController
             foreach ($usersDetails as $value)
             $new_array[$value['id']] = $value;
 
-            // Total work 
+            // Total work
             date_default_timezone_set('Asia/Kolkata');
             $year = date('Y');
             $month = date('m');
@@ -414,7 +414,7 @@ class WorksController extends AppController
 //                }
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') group by username ")->fetchAll('assoc');
 //              echo "<pre>";print_r($details);die;
-                // Total work 
+                // Total work
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '".$from."' AND '" .$to . "') and status='1' group by username")->fetchAll('assoc');
                     $workHr = array();
                     // echo "<pre>";print_r($totalWorks);die;
@@ -424,7 +424,7 @@ class WorksController extends AppController
                 // echo "<pre>";print_r($workHr);die;
             }else{
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1' group by username ")->fetchAll('assoc');
-                // Total work 
+                // Total work
                 // echo "select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username"; die;
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1'  group by username")->fetchAll('assoc');
                     $workHr = array();
@@ -442,11 +442,11 @@ class WorksController extends AppController
     public function adminReportsDetails()
     {
         // echo gmdate("H:i:s", 685);
-        // $datetime_1 = '2023-05-20 08:23:27'; 
-        // $datetime_2 = '2023-05-21 04:35:52'; 
-        
-        // echo $from_time  = strtotime($datetime_1)."</br>"; 
-        // echo $to_time    = strtotime($datetime_2)."</br>"; 
+        // $datetime_1 = '2023-05-20 08:23:27';
+        // $datetime_2 = '2023-05-21 04:35:52';
+
+        // echo $from_time  = strtotime($datetime_1)."</br>";
+        // echo $to_time    = strtotime($datetime_2)."</br>";
         // echo $diff_minutes = round(abs($from_time - $to_time) / 60). " minutes"."</br>";
         // // echo gmdate("H:i:s", 1212.42);
         // $init = $diff_minutes;
@@ -462,8 +462,7 @@ class WorksController extends AppController
         $user_id    = $session_data['Auth']['User']['id'];
         $uname      = $session_data['Auth']['User']['username'];
         $groupId    = $session_data['Auth']['User']['group_id'];
-        $groups     = [12];
-        if (!in_array($groupId, $groups)) {
+        if ($groupId==12) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         }else{
@@ -517,10 +516,10 @@ class WorksController extends AppController
                         $diff[] = $timeDiff;
                     }
                 }else{
-                    // echo 'b'; die; 
+                    // echo 'b'; die;
                     // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
                     $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId' and status='1'")->fetchAll('assoc');
-                }                
+                }
             }
         }
         $this->set(compact('details','name','diff','desig','empId'));
@@ -528,12 +527,3 @@ class WorksController extends AppController
 
     // public function clock
 }
-
-
-//
-
-
-
-
-
-
