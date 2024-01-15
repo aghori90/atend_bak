@@ -40,7 +40,6 @@ class WorksController extends AppController
         $state = $this->getCfStateName();
         $cfDistricts = [];
         $blocks = [];
-
         $this->set(compact('districts', 'state', 'cfDistricts', 'blocks'));
 
     }
@@ -62,9 +61,9 @@ class WorksController extends AppController
             $fileName = $data['file']['name'];
             $fileSize = $data['file']['size'];
             $maxsize = 500000; // allowed file size 500kb
-            $allowed = array('png', 'pdf'); //allowed extentions
+            $allowed = array('png', 'pdf'); //allowed extensions
 
-            //serever side validation
+            //server side validation
             if ($fileName == '') {
                 $this->Flash->error(__('Choose a file.'));
                 return $this->redirect(['controller' => 'works', 'action' => 'upload']);
@@ -81,7 +80,7 @@ class WorksController extends AppController
             if (!empty($data['file']['name'])) {
                 $uploadPath = 'uploads/files/';
                 $uploadFile = $uploadPath . $fileName;
-                //check extention
+                //check extension
                 $ext = pathinfo($fileName, PATHINFO_EXTENSION);
                 if (!in_array($ext, $allowed)) {
                     $this->Flash->error(__('only PNG is allowed.'));
@@ -127,7 +126,8 @@ class WorksController extends AppController
 //        echo "<pre>"; print_r($files); "</pre>"; die();
     }
 
-    public function serverMonitor(){
+    public function serverMonitor()
+    {
         $connection = ConnectionManager::get('dbRationTest');
 
         if ($this->request->is('post')) {
@@ -438,7 +438,7 @@ class WorksController extends AppController
         $this->set(compact('details', 'name', 'desig', 'workHr'));
     }
 
-    public function adminReportsDetails()
+    public function adminReportDetails()
     {
         $this->set('title', 'Admin Reports');
         $connection = ConnectionManager::get('default');
@@ -447,8 +447,7 @@ class WorksController extends AppController
         $user_id = $session_data['Auth']['User']['id'];
         $uname = $session_data['Auth']['User']['username'];
         $groupId = $session_data['Auth']['User']['group_id'];
-//        $groups     = [12];
-        if (!in_array($groupId)) {
+        if ($groupId != 12) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
@@ -462,52 +461,52 @@ class WorksController extends AppController
                 'valueField' => 'name'
             ]);
             $desig = $query->toArray();
-
+//echo "<pre>";print_r($desig);die;
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
-                //    echo "<pre>";print_r($data);die;
+//                echo "<pre>";
+//                print_r($data);
+//                die;
                 $condition = "";
                 $from = $data['from'];
                 $to = $data['to'];
                 $empId = $data['detail'];
                 $emId = $data['empId'];
 
-                // $this->request->session()->write('idEmp', $empId);
-                // $empId = $this->request->session()->read('idEmp');
-
-                // echo $this->request->session()->write('empId', $empId);
-                // $empIdd = $this->request->session()->read('empId');
-                // echo $empIdd; die;
-
                 // echo "SELECT SUM(out_time, in_time) as diff from in_out_records where username ='$empId' "; die;
-                $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$empId' ")->fetchAll('assoc');
-                $diff = array();
-//                echo "<pre>";print_r($timeDiffs);die;
-                foreach ($timeDiffs as $timeDiff) {
-                    $diff[] = $timeDiff;
-                }
+//                $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$empId' ")->fetchAll('assoc');
+//                $diff = array();
+//                echo "<pre>";
+//                print_r($timeDiffs);
+//                die;
+//                foreach ($timeDiffs as $timeDiff) {
+//                    $diff[] = $timeDiff;
+//                }
                 if ($from != '' && $to != '') {
-                    // echo 'a'; die;
-//                     echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '".$from."' AND '" .$to . "') and username ='$emId'"; die;
+// echo 'a'; die;
+                    echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '" . $from . "' AND '" . $to . "') and username ='$emId'";
+                    die;
                     $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and username ='$emId' and status='1'")->fetchAll('assoc');
                     $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$emId' ")->fetchAll('assoc');
 //                    echo "<pre>";print_r($details);die;
-                    // $inDate = $details[0]['in_date'];
-                    // $inTime = $details[0]['in_time'];
-                    // $outDate = $details[0]['out_date'];
-                    // $inTime = $details[0]['out_time'];
+// $inDate = $details[0]['in_date'];
+// $inTime = $details[0]['in_time'];
+// $outDate = $details[0]['out_date'];
+// $inTime = $details[0]['out_time'];
                     $diff = array();
-                    //echo "<pre>";print_r($timeDiffs);die;
+//echo "<pre>";print_r($timeDiffs);die;
                     foreach ($timeDiffs as $timeDiff) {
                         $diff[] = $timeDiff;
                     }
                 } else {
-                    // echo 'b'; die;
-                    // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
+// echo 'b'; die;
+// echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
                     $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId' and status='1'")->fetchAll('assoc');
                 }
             }
         }
         $this->set(compact('details', 'diff', 'desig', 'empId'));
+
     }
+
 }

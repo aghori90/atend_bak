@@ -233,7 +233,7 @@ echo $this->Html->script('jquery');
                                                                 $out_time = strtotime($server['modified']." ".$server['out_time']);
 //                                                                $final_hr    = round(abs((($out_time - $in_time) / 60 /60 ))) ;
                                                                 $final_hr    = round(abs((($out_time - $in_time) / 60 /60 ))) ;
-                                                                $fin_mn     = (($final_hr) % 60).' Min';
+                                                                $fin_mn     = (($final_hr) % 60).' mins';
 //                                                                $final    = date('H:i:s',strtotime($out_time - $in_time)). " Hrs";
                                                                 echo $final_hr.':'.$fin_mn;
 //                                                                echo explode(".",(($out_time - $in_time)/3600))[0]." ".round(($out_time - $in_time)%3600,2);

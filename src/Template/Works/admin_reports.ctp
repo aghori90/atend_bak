@@ -223,7 +223,7 @@ echo $this->Html->script('injection');
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
                                                     <td>
-                                                        <?php echo $this->Form->create('detail',['name'=>'detail','url'=>['controller'=>'works','action'=>'adminReportsDetails']]) ?>
+                                                        <?php echo $this->Form->create('detail',['name'=>'detail','url'=>['controller'=>'works','action'=>'adminReportDetails']]) ?>
                                                             <input type="submit" name="detail" value="<?php echo $server['username']; ?>" class="box">
                                                     </td>
                                                     <td><?php echo $server['f_name'].' '.$server['l_name']; ?></td>
