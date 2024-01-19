@@ -126,7 +126,7 @@ class WorksController extends AppController
         $this->set(compact('uploadData', 'upFiles'));
 
 //        echo "<pre>"; print_r($files); "</pre>"; die();
-    }
+    } //end of function
 
     public function serverMonitor()
     {
@@ -141,7 +141,7 @@ class WorksController extends AppController
         }
         $this->set(compact('getRecords'));
 
-    }
+    } //end of function
 
     public function upImg()
     {
@@ -208,7 +208,7 @@ class WorksController extends AppController
         $this->set('files',$files);
         $this->set('filesRowNum',$filesRowNum);*/
         $this->set(compact('upFiles', 'uploadData', 'groups', 'username'));
-    }
+    } //end of function
 
     /*check in*/
     public function checkIn()
@@ -250,7 +250,7 @@ class WorksController extends AppController
             }
             $this->set(compact('insrt'));
         }
-    }
+    }  //end of function
 
     /*check out*/
     public function checkOut()
@@ -300,7 +300,7 @@ class WorksController extends AppController
             }
             $this->set(compact('chkInTime'));
         }
-    }
+    } //end of function
 
     /*Reports*/
     public function reports()
@@ -351,7 +351,7 @@ class WorksController extends AppController
         }
         $this->set(compact('details', 'diff', 'desig', 'img'));
 
-    }
+    } //end of function
 
     /*Admin Reports*/
     public function adminReports()
@@ -399,56 +399,50 @@ class WorksController extends AppController
                 $empId = $data['empid'];
 //                date_default_timezone_set('Asia/Kolkata');
 //                $month = date('m');
-                /*server side validation*/
-//                if($empId==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }if($from==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }if($to==''){
-//                    $this->Flash->error(__('Employee Id can not be empty.'));
-//                    $this->redirect(['action' => 'adminReports']);
-//                }
+//                    /*server side validation*/
+//                    if($empId==''){
+//                        $this->Flash->error(__('Employee Id can not be empty.'));
+//                        $this->redirect(['action' => 'adminReports']);
+//                    }if($from==''){
+//                        $this->Flash->error(__('Employee Id can not be empty.'));
+//                        $this->redirect(['action' => 'adminReports']);
+//                    }if($to==''){
+//                        $this->Flash->error(__('Employee Id can not be empty.'));
+//                        $this->redirect(['action' => 'adminReports']);
+//                    }
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') group by username ")->fetchAll('assoc');
 //              echo "<pre>";print_r($details);die;
                 // Total work
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and status='1' group by username")->fetchAll('assoc');
-                $workHr = array();
                 // echo "<pre>";print_r($totalWorks);die;
-                foreach ($totalWorks as $totalWork) {
-                    $workHr[] = $totalWork;
-                }
                 // echo "<pre>";print_r($workHr);die;
             } else {
                 $details = $connection->execute("select username, f_name, l_name, designation, in_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1' group by username ")->fetchAll('assoc');
                 // Total work
                 // echo "select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month'  group by username"; die;
                 $totalWorks = $connection->execute("select username, SEC_TO_TIME( SUM( TIME_TO_SEC( TIMEDIFF(out_time, in_time)))) as total from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and status='1'  group by username")->fetchAll('assoc');
-                $workHr = array();
                 // echo "<pre>";print_r($totalWorks);die;
-                foreach ($totalWorks as $totalWork) {
-                    $workHr[] = $totalWork;
-                }
                 // echo "<pre>";print_r($workHr);die;
+            }
+            $workHr = array();
+            foreach ($totalWorks as $totalWork) {
+                $workHr[] = $totalWork;
             }
         }
         $this->set(compact('details', 'name', 'desig', 'workHr'));
 
-    }
+    } //end of function
 
+    /*Admin Report in details*/
     public function adminReportDetails()
     {
-        echo "hello";
-        die;
         $this->set('title', 'Admin Reports');
         $connection = ConnectionManager::get('default');
         $session_data = $this->getRequest()->getSession()->read();
         $user_id = $session_data['Auth']['User']['id'];
         $uname = $session_data['Auth']['User']['username'];
         $groupId = $session_data['Auth']['User']['group_id'];
-        $groups = [12];
-        if (!in_array($groupId, $groups)) {
+        if ($groupId != 12) {
             $this->Flash->error(__('Oops!, Invalid User Login Request.'));
             $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         } else {
@@ -465,57 +459,36 @@ class WorksController extends AppController
 
             if ($this->request->is('post')) {
                 $data = $this->getRequest()->getData();
-                //    echo "<pre>";print_r($data);die;
+//                echo "<pre>";
+//                print_r($data);
+//                die;
+                $user_id = $data['empid'];
+                // create a write and read session in cakephp
+                $a_session = $this->getRequest()->getSession()->write('user_id', $user_id);
+                $sdc = $this->getRequest()->getSession()->read('user_id');
+                echo $sdc;
+//                die;
                 $condition = "";
                 $from = $data['from'];
                 $to = $data['to'];
                 $empId = $data['detail'];
-                $emId = $data['empId'];
-
-                // $this->request->session()->write('idEmp', $empId);
-                // $empId = $this->request->session()->read('idEmp');
-
-                // echo $this->request->session()->write('empId', $empId);
-                // $empIdd = $this->request->session()->read('empId');
-                // echo $empIdd; die;
-
-                // echo "SELECT SUM(out_time, in_time) as diff from in_out_records where username ='$empId' "; die;
-                $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$empId' ")->fetchAll('assoc');
+                $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$sdc'")->fetchAll('assoc');
                 $diff = array();
-                //echo "<pre>";print_r($timeDiffs);die;
                 foreach ($timeDiffs as $timeDiff) {
                     $diff[] = $timeDiff;
                 }
                 if ($from != '' && $to != '') {
-                    // echo 'a'; die;
-                    // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where (date(created) between '".$from."' AND '" .$to . "') and username ='$emId'"; die;
-                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and username ='$emId' and status='1'")->fetchAll('assoc');
-                    $timeDiffs = $connection->execute("SELECT TIMEDIFF(out_time, in_time) as diff from in_out_records where username ='$emId' ")->fetchAll('assoc');
-                    echo "<pre>";
-                    print_r($details);
-                    die;
-                    // $inDate = $details[0]['in_date'];
-                    // $inTime = $details[0]['in_time'];
-                    // $outDate = $details[0]['out_date'];
-                    // $inTime = $details[0]['out_time'];
-                    $diff = array();
-                    //echo "<pre>";print_r($timeDiffs);die;
-                    foreach ($timeDiffs as $timeDiff) {
-                        $diff[] = $timeDiff;
-                    }
+                    $details = $connection->execute("select * from in_out_records WHERE (date(created) between '" . $from . "' AND '" . $to . "') and username='$sdc' order by created desc")->fetchAll('assoc');
+                    echo "if";
                 } else {
-                    // echo 'b'; die;
-                    // echo "select username, f_name, l_name, designation,created, in_time, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId'"; die;
-                    $details = $connection->execute("select username, f_name, l_name, designation,created, in_date, in_time, out_date, out_time from in_out_records where EXTRACT(YEAR FROM created)='$year' and  EXTRACT(MONTH FROM created) ='$month' and username ='$empId' and status='1'")->fetchAll('assoc');
+                    $details = $connection->execute("select * from in_out_records where month(created)='$month' and username='$sdc' order by created desc")->fetchAll('assoc');
+                    echo "else";
                 }
+                $this->set(compact('details', 'name', 'diff', 'desig', 'empId'));   //end of if
             }
-        }
-        $this->set(compact('details', 'name', 'diff', 'desig', 'empId'));
-    }
-}
-
-
-//
+        } //end of else
+    } //end of function
+} //end of class
 
 
 

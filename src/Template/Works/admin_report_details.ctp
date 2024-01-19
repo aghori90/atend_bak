@@ -160,7 +160,10 @@ echo $this->Html->script('injection');
             <div style="width:100%;">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3" style="border:none;">
                     <div class="card-header bg-primary text-white"><b>Attendance Record</b></div>
-                    <?php echo $this->Form->create('range', ['name' => 'range', 'id' => 'range', 'url' => ['controller' => 'works', 'action' => 'adminReportsDetails']]) ?>
+                    <?php
+                    echo $this->Form->create('range', ['name' => 'range', 'id' => 'range', 'url' => ['controller' => 'works', 'action' => 'adminReportDetails']]);
+                    echo $this->Form->hidden('empid', ['value' => $details['username']]);
+                    ?>
                     <div class="container-fluid">
                         <fieldset>
                             <div class="row">
@@ -168,7 +171,9 @@ echo $this->Html->script('injection');
                                     <div class="form-group">
                                         <label for="form" class="adjst"><b>From :</b></label>
                                         <div
-                                            class="col-sm-12 adj"><?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from", "readonly" => true]); ?></div>
+                                            class="col-sm-12 adj">
+                                            <?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from", "readonly" => true]); ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
@@ -187,7 +192,7 @@ echo $this->Html->script('injection');
                             </div>
                         </fieldset>
                         <?php //echo $empId;die; ?>
-                        <?php echo $this->Form->hidden('empId', ['value' => $empId]); ?>
+                        <!--                        --><?php //echo $this->Form->hidden('empId', ['value' => $empId]); ?>
                         <?php echo $this->Form->end(); ?>
                     </div>
                     <!--                    --><?php //echo "<pre>";print_r($details);die; ?>
@@ -224,9 +229,9 @@ echo $this->Html->script('injection');
                                                 <!-- <td><?php //echo $server['username']; ?></td>
                                                 <td><?php //echo $server['f_name'].' '.$server['l_name']; ?></td>
                                                 <td><?php //echo $desig[$server['designation']]; ?></td> -->
-                                                <td><?php echo $server['in_date']; ?></td>
+                                                <td><?php echo $server['created']; ?></td>
                                                 <td><?php echo ($server['in_time']) ? $server['in_time'] : "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
-                                                <td><?php echo $server['out_date']; ?></td>
+                                                <td><?php echo $server['modified']; ?></td>
                                                 <td><?php echo ($server['out_time']) ? $server['out_time'] : "<span style='color: red; font-size: large;font-weight: bolder'>-Not Logout Yet-</span>"; ?></td>
                                                 <td>
                                                     <?php

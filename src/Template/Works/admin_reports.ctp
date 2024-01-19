@@ -89,6 +89,7 @@ echo $this->Html->script('injection');
         position: sticky;
         left: 0px;
     }
+
     th {
         background-color: darkcyan;
         color: white;
@@ -143,12 +144,15 @@ echo $this->Html->script('injection');
         margin-top: -1px;
         margin-bottom: -33px;
     }
-    .adjst{
+
+    .adjst {
         margin-top: 20px;
     }
-    .adj{
+
+    .adj {
         margin-top: 10px;
     }
+
     .box {
         background-color: transparent;
         border: 0;
@@ -163,32 +167,36 @@ echo $this->Html->script('injection');
             <div style="width:100%;">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3" style="border:none;">
                     <div class="card-header bg-primary text-white"><b>Attendance Record</b></div>
-                    <?php echo $this->Form->create('range',['name'=>'range','id'=>'range','url'=>['controller'=>'works','action'=>'adminReports']]) ?>
+                    <?php echo $this->Form->create('range', ['name' => 'range', 'id' => 'range', 'url' => ['controller' => 'works', 'action' => 'adminReports']]) ?>
                     <div class="container-fluid">
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form" class="adjst"><b>From :</b></label>
-                                        <div class="col-sm-12 adj"><?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from","readonly" => true]); ?></div>
+                                        <div
+                                            class="col-sm-12 adj"><?php echo $this->Form->control("from", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control from", "readonly" => true]); ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="form" class="adjst"><b>To :</b></label>
-                                        <div class="col-sm-12 adj"><?php echo $this->Form->control("to", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control to",  "readonly" => true]); ?></div>
+                                        <div
+                                            class="col-sm-12 adj"><?php echo $this->Form->control("to", ["type" => "text", "label" => false, "placeholder" => "dd/mm/yyyy", "class" => "form-control to", "readonly" => true]); ?></div>
                                     </div>
                                 </div>
-<!--                                <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">-->
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="form" class="adjst"><b>Employee Name :</b></label>-->
-<!--                                        <div class="col-sm-12 adj">--><?php //echo $this->Form->select("empid", $name, ["label" => false,  'empty' => '--Select Employee--', "class" => "form-control numonly"]); ?><!--</div>-->
-<!--                                         <div class="col-sm-12 adj">--><?php ////echo $this->Form->control("empid", ["type" => "text", "label" => false, "placeholder" => "--Enter Employee Id--", "class" => "form-control numonly"]); ?><!--</div> -->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <!--                                <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">-->
+                                <!--                                    <div class="form-group">-->
+                                <!--                                        <label for="form" class="adjst"><b>Employee Name :</b></label>-->
+                                <!--                                        <div class="col-sm-12 adj">-->
+                                <?php //echo $this->Form->select("empid", $name, ["label" => false,  'empty' => '--Select Employee--', "class" => "form-control numonly"]); ?><!--</div>-->
+                                <!--                                         <div class="col-sm-12 adj">-->
+                                <?php ////echo $this->Form->control("empid", ["type" => "text", "label" => false, "placeholder" => "--Enter Employee Id--", "class" => "form-control numonly"]); ?><!--</div> -->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
                                 <div class="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                     <div class="btnDeco">
-                                        <?php echo $this->Form->button(__('Submit'),['type'=>'submit', 'class' => 'form-controlbtn btn btn-success','id'=>'bt']); ?>
+                                        <?php echo $this->Form->button(__('Submit'), ['type' => 'submit', 'class' => 'form-controlbtn btn btn-success', 'id' => 'bt']); ?>
                                         <!--                                        <button type="submit" class="btn btn-outline-success">Success</button>-->
                                     </div>
                                 </div>
@@ -196,10 +204,12 @@ echo $this->Html->script('injection');
                         </fieldset>
                         <?php echo $this->Form->end(); ?>
                     </div>
-<!--                    --><?php //echo "<pre>";print_r($details);die; ?>
+                    <!--                    --><?php //echo "<pre>";print_r($details);die; ?>
                     <fieldset>
-                        <?php if($details!= 1) { ?>
-                            <span data-toggle="tooltip" data-placement="top" title="Download as Excel" onClick = "table_excel('exclDnld', 'Attendance Report SDC');"><img src="../webroot/img/excle.png" class="suk_st"></span>
+                        <?php if ($details != 1) { ?>
+                            <span data-toggle="tooltip" data-placement="top" title="Download as Excel"
+                                  onClick="table_excel('exclDnld', 'Attendance Report SDC');"><img
+                                    src="../webroot/img/excle.png" class="suk_st"></span>
                             <div>
                                 <div class="tabb">
                                     <table class="table table-bordered border-primary " id="exclDnld">
@@ -209,35 +219,40 @@ echo $this->Html->script('injection');
                                             <th>Employee Id</th>
                                             <th>Name</th>
                                             <th>Designation</th>
-                                           <th>Total Work</th>
-<!--                                            <th>In Time</th>-->
-<!--                                            <th>Out Time</th>-->
+                                            <th>Total Work</th>
+                                            <!--                                            <th>In Time</th>-->
+                                            <!--                                            <th>Out Time</th>-->
                                         </tr>
                                         </thead>
                                         <tbody style="" align="center">
-                                            <?php
-//                                            echo "<pre>";print_r($details);die;
-                                            $i=1;
-                                            foreach ($details as $server) { ?>
+                                        <?php
+                                        //                                            echo "<pre>";print_r($details);die;
+                                        $i = 1;
+                                        foreach ($details as $server) { ?>
 
-                                                <tr>
-                                                    <td><?php echo $i++; ?></td>
-                                                    <td>
-                                                        <?php echo $this->Form->create('detail',['name'=>'detail','url'=>['controller'=>'works','action'=>'adminReportDetails']]) ?>
-                                                            <input type="submit" name="detail" value="<?php echo $server['username']; ?>" class="box">
-                                                    </td>
-                                                    <td><?php echo $server['f_name'].' '.$server['l_name']; ?></td>
-                                                    <td><?php echo $desig[$server['designation']]; ?></td>
-                                                    <td><?php echo $workHr[$a++]['total']; ?></td>
-                                                </tr>
-                                            <?php } ?>
-                                            <!-- <input type="hidden" name="empid" value="<?php// echo $server['username']; ?>"/> -->
-                                            <?php echo $this->Form->end(); ?>
+                                            <tr>
+                                                <td><?php echo $i++; ?></td>
+                                                <td>
+                                                    <?php
+                                                    echo $this->Form->create('detail', ['name' => 'detail', 'url' => ['controller' => 'works', 'action' => 'adminReportDetails']]);
+                                                    echo $this->Form->hidden('empid', ['value' => $server['username']]);
+                                                    ?>
+                                                    <input type="submit" name="detail"
+                                                           value="<?php echo $server['username']; ?>" class="box">
+                                                </td>
+                                                <td><?php echo $server['f_name'] . ' ' . $server['l_name']; ?></td>
+                                                <td><?php echo $desig[$server['designation']]; ?></td>
+                                                <td><?php echo $workHr[$a++]['total']; ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                        <!--                                        <input type="hidden" name="empid" value="-->
+                                        <?php //echo $server['username']; ?><!--"/>-->
+                                        <?php echo $this->Form->end(); ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        <?php }else{ ?>
+                        <?php } else { ?>
                             <span style="color: red; font-weight: bold">Sorry No Records found</span>
                         <?php } ?>
                     </fieldset>
@@ -249,51 +264,52 @@ echo $this->Html->script('injection');
 
 <?php echo $this->Html->script("jquery-ui.js") ?>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#bt').click(function(){
+    $(document).ready(function () {
+        $('#bt').click(function () {
             let cal1 = $('#from').val();
             let cal2 = $('#to').val();
             let empid = $('#empid').val();
             // alert(cal2);
-            if(cal1 == '' || cal2 == ''){
+            if (cal1 == '' || cal2 == '') {
                 // $('#from').html('Please Select date');
-                alert('Select Date Range');return false;
+                alert('Select Date Range');
+                return false;
             }
-            if(empid == ''){
-                alert('Enter Employee Id');return false;
+            if (empid == '') {
+                alert('Enter Employee Id');
+                return false;
             }
             // return false;
         });
     });
 
-        /*datepicker*/
-        $(function() {
-            $('.from').datepicker({
-                language: "es",
-                autoclose: true,
-                todayHighlight: true,
-                changeMonth: true,
-                changeYear: true,
-                maxDate: "D M Y",
-                yearRange: "-20:-0",
-                dateFormat: "yy-mm-dd",
-                // defaultDate: "-720m",
+    /*datepicker*/
+    $(function () {
+        $('.from').datepicker({
+            language: "es",
+            autoclose: true,
+            todayHighlight: true,
+            changeMonth: true,
+            changeYear: true,
+            maxDate: "D M Y",
+            yearRange: "-20:-0",
+            dateFormat: "yy-mm-dd",
+            // defaultDate: "-720m",
 
-            });
-
-            /*To*/
-            $('.to').datepicker({
-                language: "es",
-                autoclose: true,
-                todayHighlight: true,
-                changeMonth: true,
-                changeYear: true,
-                maxDate: "D M Y",
-                yearRange: "-20:-0",
-                dateFormat: "yy-mm-dd",
-                // defaultDate: "-720m",
-
-            });
         });
 
+        /*To*/
+        $('.to').datepicker({
+            language: "es",
+            autoclose: true,
+            todayHighlight: true,
+            changeMonth: true,
+            changeYear: true,
+            maxDate: "D M Y",
+            yearRange: "-20:-0",
+            dateFormat: "yy-mm-dd",
+            // defaultDate: "-720m",
+
+        });
+    });
 </script>
